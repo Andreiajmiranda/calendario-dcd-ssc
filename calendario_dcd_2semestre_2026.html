@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<!--
+  ============================================================
+  CALENDÁRIO DCD — 2º Semestre 2026  |  v3.0
+  Ministério da Gestão e da Inovação em Serviços Públicos
+  CGUNI · DCD/SSC
+  ============================================================
+  EMBED INTRANET / SHAREPOINT:
+    <iframe src="calendario_dcd_2semestre_2026.html"
+            width="100%" height="860px" frameborder="0"></iframe>
+  SUPORTE: CGUNI/DCD · Andreia Guimarães  |  v3.0 · Julho 2026
+  ============================================================
+-->
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calendário Institucional da DCD/SSC – Capacitações, Eventos e Agenda Estratégica 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* ============================================================
+       DESIGN SYSTEM v3 — Fundo branco, paleta suave, alta legibilidade
+       Colorimetria: análogos frios (azul-esverdeado-teal) para base,
+       acentos quentes pontuais. Contraste AA mínimo 4.5:1.
+    ============================================================ */
+    :root {
+      /* ── Base */
+      --bg:          #f5f7fa;
+      --surface:     #ffffff;
+      --surface-2:   #f0f3f8;
+      --border:      #e2e8f0;
+      --border-med:  #cbd5e1;
+      --text:        #1e293b;
+      --text-muted:  #64748b;
+      --text-light:  #94a3b8;
+
+      /* ── Marca MGI — azul institucional refinado */
+      --brand:       #1a56db;
+      --brand-dark:  #1341a8;
+      --brand-light: #e8effe;
+      --brand-grad:  linear-gradient(135deg, #1a56db 0%, #1341a8 100%);
+
+      /* ── Treinamento confirmado — azul-teal (calmo, confiável) */
+      --cron-accent: #0891b2;   /* cyan-700 */
+      --cron-bg:     #ecfeff;
+      --cron-border: #a5f3fc;
+      --cron-text:   #164e63;
+      --cron-pill:   #cffafe;
+
+      /* ── A definir / prevista — lilás suave (expectativa sem alarme) */
+      --adef-accent: #7c3aed;   /* violet-700 */
+      --adef-bg:     #f5f3ff;
+      --adef-border: #ddd6fe;
+      --adef-text:   #4c1d95;
+      --adef-pill:   #ede9fe;
+
+      /* ── Feriado — vermelho rosado (não agressivo) */
+      --fer-accent:  #dc2626;
+      --fer-bg:      #fff5f5;
+      --fer-border:  #fecaca;
+      --fer-text:    #7f1d1d;
+      --fer-pill:    #fee2e2;
+
+      /* ── Ponto Facultativo — âmbar suave */
+      --pf-accent:   #d97706;
+      --pf-bg:       #fffbeb;
+      --pf-border:   #fde68a;
+      --pf-text:     #78350f;
+      --pf-pill:     #fef3c7;
+
+      /* ── Viagem — azul índigo */
+      --via-accent:  #4f46e5;
+      --via-bg:      #eef2ff;
+      --via-border:  #c7d2fe;
+      --via-text:    #312e81;
+      --via-pill:    #e0e7ff;
+
+      /* ── Férias — verde sálvia (descanso, natureza) */
+      --fea-accent:  #059669;
+      --fea-bg:      #ecfdf5;
+      --fea-border:  #a7f3d0;
+      --fea-text:    #064e3b;
+      --fea-pill:    #d1fae5;
+
+      /* ── Sidebar */
+      --side-bg:     #ffffff;
+      --side-text:   #1e293b;
+      --side-muted:  #94a3b8;
+      --side-border: #e2e8f0;
+
+      --r-sm: 6px;
+      --r-md: 10px;
+      --r-lg: 14px;
+      --r-xl: 18px;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,.07), 0 1px 2px rgba(0,0,0,.05);
+      --shadow-md: 0 4px 12px rgba(0,0,0,.10);
+      --shadow-lg: 0 12px 32px rgba(0,0,0,.14);
+      --t: .17s ease;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 20px 16px 32px;
+    }
+
+    /* ============================================================
+       LAYOUT PRINCIPAL — calendário + sidebar
+    ============================================================ */
+    .page-wrapper {
+      max-width: 1240px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 290px;
+      grid-template-rows: auto 1fr;
+      gap: 0;
+      background: var(--surface);
+      border-radius: var(--r-xl);
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+    }
+
+    /* ── Cabeçalho ocupa as duas colunas ── */
+    .cal-header {
+      grid-column: 1 / -1;
+      background: var(--brand-grad);
+      padding: 20px 28px 16px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      position: relative;
+      overflow: hidden;
+    }
+    .cal-header::after {
+      content: '';
+      position: absolute;
+      width: 280px; height: 280px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.05);
+      top: -120px; right: -80px;
+      pointer-events: none;
+    }
+    .cal-header-icon { font-size: 2rem; flex-shrink: 0; }
+    .cal-header-title {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: .01em;
+    }
+    .cal-header-sub {
+      font-size: .76rem;
+      color: rgba(255,255,255,.72);
+      margin-top: 2px;
+      font-weight: 500;
+    }
+    .cal-header-badge {
+      margin-left: auto;
+      background: rgba(255,255,255,.15);
+      border: 1px solid rgba(255,255,255,.28);
+      border-radius: 20px;
+      padding: 5px 14px;
+      font-size: .7rem;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: .05em;
+      white-space: nowrap;
+    }
+
+    /* ── Coluna do calendário ── */
+    .cal-col {
+      display: flex;
+      flex-direction: column;
+      border-right: 1.5px solid var(--border);
+    }
+
+    /* ── Navegação ── */
+    .cal-nav {
+      padding: 13px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+    }
+    .cal-nav-month {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--brand);
+      text-transform: capitalize;
+    }
+    .cal-nav-btn {
+      background: var(--surface-2);
+      border: 1px solid var(--border-med);
+      border-radius: var(--r-sm);
+      padding: 6px 14px;
+      font-size: .78rem;
+      font-weight: 700;
+      color: var(--brand);
+      cursor: pointer;
+      font-family: inherit;
+      transition: all var(--t);
+    }
+    .cal-nav-btn:hover {
+      background: var(--brand);
+      color: #fff;
+      border-color: var(--brand);
+    }
+
+    /* ── Dias da semana ── */
+    .cal-weekdays {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      background: var(--surface-2);
+      border-bottom: 1px solid var(--border);
+    }
+    .cal-weekday {
+      text-align: center;
+      padding: 8px 2px;
+      font-size: .65rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      letter-spacing: .07em;
+      text-transform: uppercase;
+    }
+    .cal-weekday.weekend { color: #b91c1c; }
+
+    /* ── Grade de dias ── */
+    .cal-days {
+      flex: 1;
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      align-content: start;
+    }
+
+    .cal-day {
+      min-height: 88px;
+      border-right: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 6px 5px 4px;
+      cursor: default;
+      transition: background var(--t);
+      overflow: hidden;
+    }
+    .cal-day:nth-child(7n) { border-right: none; }
+    .cal-day.other-month { background: #fafbfd; }
+    .cal-day.other-month .cal-day-num { color: var(--text-light); }
+    .cal-day.has-events { cursor: pointer; }
+    .cal-day.has-events:hover { background: #f8faff; }
+
+    /* Hoje */
+    .cal-day.today { background: #eff6ff; }
+    .cal-day.today .cal-day-num {
+      background: var(--brand);
+      color: #fff;
+      border-radius: 50%;
+      width: 24px; height: 24px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+    }
+
+    /* Feriado */
+    .cal-day.has-feriado { background: #fff8f8 !important; }
+    .cal-day.has-feriado:hover { background: #fff0f0 !important; }
+
+    .cal-day-num {
+      font-size: .78rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 24px;
+      margin-bottom: 2px;
+    }
+
+    /* ── Pills ── */
+    .cal-events { display: flex; flex-direction: column; gap: 2px; }
+
+    .cal-event-pill {
+      font-size: .60rem;
+      font-weight: 600;
+      border-radius: 4px;
+      padding: 2px 5px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      line-height: 1.55;
+      max-width: 100%;
+    }
+    .pill-cronograma { background: var(--cron-pill); color: var(--cron-text); }
+    .pill-adef       { background: var(--adef-pill); color: var(--adef-text); font-style: italic; }
+    .pill-feriado    { background: var(--fer-pill);  color: var(--fer-text);  font-weight: 700; }
+    .pill-pf         { background: var(--pf-pill);   color: var(--pf-text); }
+    .pill-viagem     { background: var(--via-pill);  color: var(--via-text); }
+    .pill-ferias     { background: var(--fea-pill);  color: var(--fea-text); }
+    .pill-evento     { background: var(--evt-pill);  color: var(--evt-text); font-weight: 700; }
+
+    .cal-more {
+      font-size: .58rem;
+      color: var(--text-light);
+      font-weight: 600;
+      padding-left: 2px;
+    }
+
+    /* ── Legenda ── */
+    .cal-legend {
+      padding: 12px 16px;
+      background: var(--surface-2);
+      border-top: 1px solid var(--border);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 16px;
+      align-items: center;
+    }
+    .legend-title {
+      font-size: .6rem;
+      font-weight: 800;
+      color: var(--text-light);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      width: 100%;
+    }
+    .legend-item { display: flex; align-items: center; gap: 5px; font-size: .7rem; font-weight: 500; color: var(--text-muted); }
+    .legend-dot { width: 9px; height: 9px; border-radius: 3px; flex-shrink: 0; }
+    .ld-cron { background: var(--cron-accent); }
+    .ld-adef { background: var(--adef-accent); }
+    .ld-fer  { background: var(--fer-accent); }
+    .ld-pf   { background: var(--pf-accent); }
+    .ld-via  { background: var(--via-accent); }
+    .ld-fea  { background: var(--fea-accent); }
+
+    /* ============================================================
+       SIDEBAR — painel de capacitações
+    ============================================================ */
+    .sidebar {
+      background: var(--side-bg);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .sidebar-header {
+      padding: 16px 18px 12px;
+      border-bottom: 1px solid var(--side-border);
+    }
+    .sidebar-title {
+      font-size: .68rem;
+      font-weight: 800;
+      color: var(--text-muted);
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      margin-bottom: 2px;
+    }
+    .sidebar-month {
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--brand);
+      text-transform: capitalize;
+    }
+
+    .sidebar-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    .sidebar-body::-webkit-scrollbar { width: 4px; }
+    .sidebar-body::-webkit-scrollbar-thumb { background: var(--border-med); border-radius: 2px; }
+
+    /* ── Seção dentro da sidebar ── */
+    .side-section {}
+    .side-section-label {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: .64rem;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+      padding-bottom: 7px;
+      border-bottom: 1px solid var(--side-border);
+    }
+    .side-section-label.confirmed { color: var(--cron-accent); }
+    .side-section-label.pending   { color: var(--adef-accent); }
+    .side-label-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .confirmed .side-label-dot { background: var(--cron-accent); box-shadow: 0 0 5px rgba(8,145,178,.35); }
+    .pending   .side-label-dot { background: var(--adef-accent); box-shadow: 0 0 5px rgba(124,58,237,.35); }
+
+    .side-empty {
+      font-size: .74rem;
+      color: var(--side-muted);
+      font-style: italic;
+      padding: 6px 0;
+    }
+
+    /* ── Cards de evento na sidebar ── */
+    .side-event {
+      border-radius: var(--r-md);
+      padding: 10px 12px;
+      margin-bottom: 7px;
+      cursor: pointer;
+      transition: transform var(--t), box-shadow var(--t);
+      position: relative;
+      overflow: hidden;
+    }
+    .side-event:last-child { margin-bottom: 0; }
+    .side-event:hover { transform: translateX(3px); box-shadow: -3px 0 0 0 var(--border-med); }
+
+    .side-event.confirmed-card {
+      background: var(--cron-bg);
+      border: 1px solid var(--cron-border);
+      border-left: 3px solid var(--cron-accent);
+    }
+    .side-event.pending-card {
+      background: var(--adef-bg);
+      border: 1px solid var(--adef-border);
+      border-left: 3px solid var(--adef-accent);
+    }
+
+    .side-event-date {
+      font-size: .6rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      margin-bottom: 3px;
+    }
+    .side-event.pending-card .side-event-date { color: var(--adef-accent); }
+    .side-event.confirmed-card .side-event-date { color: var(--cron-accent); }
+
+    .side-event-title {
+      font-size: .76rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.35;
+      margin-bottom: 4px;
+    }
+
+    .side-event-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-top: 5px;
+    }
+    .side-chip {
+      font-size: .58rem;
+      font-weight: 600;
+      border-radius: 10px;
+      padding: 2px 7px;
+      background: var(--surface-2);
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+    .side-chip.chip-format { background: var(--cron-pill); color: var(--cron-text); }
+    .side-chip.chip-hours  { background: var(--pf-pill);   color: var(--pf-text); }
+    .side-chip.chip-adef   { background: var(--adef-pill); color: var(--adef-text); font-style: italic; }
+
+    /* ── Rodapé da sidebar ── */
+    .sidebar-footer {
+      padding: 12px 16px;
+      border-top: 1px solid var(--side-border);
+      font-size: .65rem;
+      color: rgba(255,255,255,.38);
+      text-align: center;
+      line-height: 1.5;
+    }
+
+    /* ============================================================
+       MODAL
+    ============================================================ */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15,23,42,.55);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      backdrop-filter: blur(4px);
+    }
+    .modal-overlay.open { display: flex; }
+
+    .modal {
+      background: var(--surface);
+      border-radius: var(--r-xl);
+      box-shadow: var(--shadow-lg);
+      max-width: 520px;
+      width: 100%;
+      max-height: 86vh;
+      overflow-y: auto;
+      animation: popIn .2s cubic-bezier(.16,1,.3,1);
+    }
+    @keyframes popIn {
+      from { opacity: 0; transform: translateY(20px) scale(.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .modal-header {
+      padding: 18px 20px 14px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    .modal-date-label { font-size: .64rem; font-weight: 700; color: var(--text-light); letter-spacing: .06em; text-transform: uppercase; margin-bottom: 3px; }
+    .modal-date { font-size: 1.05rem; font-weight: 800; color: var(--brand); text-transform: capitalize; }
+    .modal-close {
+      background: var(--surface-2); border: 1px solid var(--border);
+      border-radius: 50%; width: 28px; height: 28px;
+      cursor: pointer; font-size: .9rem; color: var(--text-muted);
+      display: flex; align-items: center; justify-content: center;
+      transition: all var(--t); flex-shrink: 0;
+    }
+    .modal-close:hover { background: var(--fer-accent); color: #fff; border-color: var(--fer-accent); }
+
+    .modal-body { padding: 14px 20px 20px; display: flex; flex-direction: column; gap: 10px; }
+
+    .modal-event {
+      border-radius: var(--r-md);
+      padding: 13px 15px;
+      border: 1px solid transparent;
+      border-left: 4px solid transparent;
+    }
+    .modal-event.t-cron { background: var(--cron-bg); border-color: var(--cron-border); border-left-color: var(--cron-accent); }
+    .modal-event.t-adef { background: var(--adef-bg); border-color: var(--adef-border); border-left-color: var(--adef-accent); }
+    .modal-event.t-fer  { background: var(--fer-bg);  border-color: var(--fer-border);  border-left-color: var(--fer-accent); }
+    .modal-event.t-pf   { background: var(--pf-bg);   border-color: var(--pf-border);   border-left-color: var(--pf-accent); }
+    .modal-event.t-via  { background: var(--via-bg);  border-color: var(--via-border);  border-left-color: var(--via-accent); }
+    .modal-event.t-fea  { background: var(--fea-bg);  border-color: var(--fea-border);  border-left-color: var(--fea-accent); }
+    .modal-event.t-evt  { background: var(--evt-bg);  border-color: var(--evt-border);  border-left-color: var(--evt-accent); }
+
+    .m-badge {
+      display: inline-flex; align-items: center; gap: 4px;
+      font-size: .63rem; font-weight: 800; letter-spacing: .05em;
+      text-transform: uppercase; border-radius: 12px;
+      padding: 2px 9px; color: #fff; margin-bottom: 7px;
+    }
+    .mb-cron { background: var(--cron-accent); }
+    .mb-adef { background: var(--adef-accent); }
+    .mb-fer  { background: var(--fer-accent); }
+    .mb-pf   { background: var(--pf-accent); }
+    .mb-via  { background: var(--via-accent); }
+    .mb-fea  { background: var(--fea-accent); }
+    .mb-evt  { background: var(--evt-accent); }
+
+    .m-title { font-size: .93rem; font-weight: 700; color: var(--text); margin-bottom: 7px; line-height: 1.3; }
+    .m-meta { display: flex; flex-direction: column; gap: 4px; }
+    .m-row  { display: flex; gap: 8px; font-size: .76rem; }
+    .m-lbl  { font-weight: 600; min-width: 95px; color: var(--text-muted); flex-shrink: 0; }
+    .m-val  { color: var(--text); flex: 1; }
+
+    .m-alert {
+      display: flex; align-items: flex-start; gap: 7px;
+      border-radius: var(--r-sm); padding: 8px 11px;
+      font-size: .74rem; font-weight: 600; margin-top: 8px; line-height: 1.4;
+    }
+    .m-alert.a-green { background: var(--fea-bg); border: 1px solid var(--fea-border); color: var(--fea-text); }
+    .m-alert.a-blue  { background: var(--cron-bg); border: 1px solid var(--cron-border); color: var(--cron-text); }
+    .m-alert.a-vio   { background: var(--adef-bg); border: 1px solid var(--adef-border); color: var(--adef-text); }
+
+    /* ============================================================
+       RESPONSIVO
+    ============================================================ */
+    @media (max-width: 860px) {
+      .page-wrapper { grid-template-columns: 1fr; grid-template-rows: auto auto 1fr auto; }
+      .cal-col { border-right: none; border-bottom: 1.5px solid var(--border); }
+      .sidebar { max-height: 320px; }
+      .cal-day { min-height: 68px; }
+    }
+    @media (max-width: 560px) {
+      body { padding: 8px 8px 20px; }
+      .cal-day { min-height: 56px; padding: 3px 3px 2px; }
+      .cal-event-pill { font-size: .54rem; }
+      .cal-header-title { font-size: 1rem; }
+      .modal { max-height: 90vh; }
+    }
+    @media (max-width: 400px) {
+      .cal-event-pill { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="page-wrapper">
+
+  <!-- ── Cabeçalho ── -->
+  <div class="cal-header">
+    <div class="cal-header-icon">📅</div>
+    <div>
+      <div class="cal-header-title">Calendário Institucional da DCD/SSC – Capacitações, Eventos e Agenda Estratégica 2026</div>
+      <div class="cal-header-sub">CGUNI · DCD/SSC · Ministério da Gestão e da Inovação em Serviços Públicos</div>
+    </div>
+  </div>
+
+  <!-- ══════════════ COLUNA DO CALENDÁRIO ══════════════ -->
+  <div class="cal-col">
+
+    <!-- Navegação -->
+    <div class="cal-nav">
+      <button class="cal-nav-btn" id="btn-prev">← Anterior</button>
+      <div class="cal-nav-month" id="month-label"></div>
+      <button class="cal-nav-btn" id="btn-next">Próximo →</button>
+    </div>
+
+    <!-- Dias da semana -->
+    <div class="cal-weekdays">
+      <div class="cal-weekday">DOM</div>
+      <div class="cal-weekday">SEG</div>
+      <div class="cal-weekday">TER</div>
+      <div class="cal-weekday">QUA</div>
+      <div class="cal-weekday">QUI</div>
+      <div class="cal-weekday">SEX</div>
+      <div class="cal-weekday weekend">SÁB</div>
+    </div>
+
+    <!-- Grade -->
+    <div class="cal-days" id="cal-days"></div>
+
+    <!-- Legenda -->
+    <div class="cal-legend">
+      <div class="legend-title">Legenda</div>
+      <div class="legend-item"><span class="legend-dot ld-cron"></span>Cursos e Treinamentos</div>
+
+      <div class="legend-item"><span class="legend-dot ld-fer"></span>Feriado Nacional</div>
+      <div class="legend-item"><span class="legend-dot ld-pf"></span>Ponto Facultativo</div>
+      <div class="legend-item"><span class="legend-dot" style="background:var(--evt-accent)"></span>Evento Estratégico</div>
+      <div class="legend-item"><span class="legend-dot ld-via"></span>Viagem Institucional</div>
+
+    </div>
+
+  </div><!-- /.cal-col -->
+
+  <!-- ══════════════ SIDEBAR ══════════════ -->
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-title">Capacitações</div>
+      <div class="sidebar-month" id="side-month"></div>
+    </div>
+
+    <div class="sidebar-body" id="sidebar-body">
+      <!-- preenchido via JS -->
+    </div>
+
+    <div class="sidebar-footer">
+      Clique em qualquer dia para ver detalhes completos
+    </div>
+  </div>
+
+</div><!-- /.page-wrapper -->
+
+<!-- ══════════════ MODAL ══════════════ -->
+<div class="modal-overlay" id="modal-overlay" role="dialog" aria-modal="true">
+  <div class="modal">
+    <div class="modal-header">
+      <div>
+        <div class="modal-date-label">Eventos do dia</div>
+        <div class="modal-date" id="modal-date"></div>
+      </div>
+      <button class="modal-close" id="modal-close" aria-label="Fechar">✕</button>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+  </div>
+</div>
+
+<!-- ══════════════ SCRIPT ══════════════ -->
+<script>
+// ============================================================
+//  DADOS — extraídos do Excel cronograma_2º_semestre_DCD.xlsx
+// ============================================================
+const CALENDAR_DATA = {"2026-02-05": [{"tipo": "cronograma", "titulo": "Oficina de Pesquisa de Preço", "horario": "Das 14h às 18h", "instrutor": "Ricardo França de Brito / DCD/SSC/MGI", "unidades": "SRAs, DCD", "formato": "On-line", "carga": "4", "data_raw": "05/02/2026", "aproximado": false}], "2026-02-23": [{"tipo": "cronograma", "titulo": "Suprimento de Fundos", "horario": "Das 09h às 13h", "instrutor": "Ronaldo Corrêa / Alcance Capacitações", "unidades": "SRAs, DCD", "formato": "Híbrido", "carga": "12", "data_raw": "23 a 25/02/2026", "aproximado": false}], "2026-02-24": [{"tipo": "cronograma", "titulo": "Suprimento de Fundos", "horario": "Das 09h às 13h", "instrutor": "Ronaldo Corrêa / Alcance Capacitações", "unidades": "SRAs, DCD", "formato": "Híbrido", "carga": "12", "data_raw": "23 a 25/02/2026", "aproximado": false}], "2026-02-25": [{"tipo": "cronograma", "titulo": "Suprimento de Fundos", "horario": "Das 09h às 13h", "instrutor": "Ronaldo Corrêa / Alcance Capacitações", "unidades": "SRAs, DCD", "formato": "Híbrido", "carga": "12", "data_raw": "23 a 25/02/2026", "aproximado": false}], "2026-03-02": [{"tipo": "cronograma", "titulo": "Noções básicas de orçamento público e introdução ao Tesouro Gerencial", "horario": "Das 14h às 18h", "instrutor": "Alice Aleixo / SRA/MG/DCD/SSC/MGI", "unidades": "SRAs, DCD", "formato": "On-line", "carga": "12", "data_raw": "02 a 04/03/2026", "aproximado": false}], "2026-03-03": [{"tipo": "cronograma", "titulo": "Noções básicas de orçamento público e introdução ao Tesouro Gerencial", "horario": "Das 14h às 18h", "instrutor": "Alice Aleixo / SRA/MG/DCD/SSC/MGI", "unidades": "SRAs, DCD", "formato": "On-line", "carga": "12", "data_raw": "02 a 04/03/2026", "aproximado": false}], "2026-03-04": [{"tipo": "cronograma", "titulo": "Noções básicas de orçamento público e introdução ao Tesouro Gerencial", "horario": "Das 14h às 18h", "instrutor": "Alice Aleixo / SRA/MG/DCD/SSC/MGI", "unidades": "SRAs, DCD", "formato": "On-line", "carga": "12", "data_raw": "02 a 04/03/2026", "aproximado": false}], "2026-03-10": [{"tipo": "cronograma", "titulo": "Curso de Formação e Ordenadores de Despesas", "horario": "Das 8h às 18h", "instrutor": "Giovanni Paccelli / MPF Serviços Educacionais", "unidades": "SRAs, DCD", "formato": "Presencial", "carga": "16", "data_raw": "10 e 11/03/2026", "aproximado": false}], "2026-03-11": [{"tipo": "cronograma", "titulo": "Curso de Formação e Ordenadores de Despesas", "horario": "Das 8h às 18h", "instrutor": "Giovanni Paccelli / MPF Serviços Educacionais", "unidades": "SRAs, DCD", "formato": "Presencial", "carga": "16", "data_raw": "10 e 11/03/2026", "aproximado": false}], "2026-03-23": [{"tipo": "cronograma", "titulo": "Oficina sobre Operacionalização do SCDP", "horario": "Das 14h às 18h", "instrutor": "Yuratan Alves Bernardes / DELOG/SEGES/MGI", "unidades": "SRAs, DCD", "formato": "On-line", "carga": "20", "data_raw": "23 a 27/03/2026", "aproximado": false}, {"tipo": "cronograma", "titulo": "Congresso de Pregoeiros 2026", "horario": "Das 8h às 18h", "instrutor": "Instituto Negócios Públicos do Brasil (INP)", "unidades": "SRAs, DCD", "formato": "Híbrido", "carga": "32", "data_raw": "23 a 26/03/2026", "aproximado": false}], "2026-03-24": [{"tipo": "cronograma", "titulo": "Oficina sobre Operacionalização do SCDP", "horario": "Das 14h às 18h", "instrutor": "Yuratan Alves Bernardes / DELOG/SEGES/MGI", "unidades": "SRAs, DCD", "formato": "On-line", "carga": "20", "data_raw": "23 a 27/03/2026", "aproximado": false}, {"tipo": "cronograma", "titulo": "Congresso de Pregoeiros 2026", "horario": "Das 8h às 18h", "instrutor": "Instituto Negócios Públicos do Brasil (INP)", "unidades": "SRAs, DCD", "formato": "Híbrido", "carga": "32", "data_raw": "23 a 26/03/2026", "aproximado": false}], "2026-03-25": [{"tipo": "cronograma", "titulo": "Oficina sobre Operacionalização do SCDP", "horario": "Das 14h às 18h", "instrutor": "Yuratan Alves Bernardes / DELOG/SEGES/MGI", "unidades": "SRAs, DCD", "formato": "On-line", "carga": "20", "data_raw": "23 a 27/03/2026", "aproximado": false}, {"tipo": "cronograma", "titulo": "Congresso de Pregoeiros 2026", "horario": "Das 8h às 18h", "instrutor": "Instituto Negócios Públicos do Brasil (INP)", "unidades": "SRAs, DCD", "formato": "Híbrido", "carga": "32", "data_raw": "23 a 26/03/2026", "aproximado": false}], "2026-03-26": [{"tipo": "cronograma", "titulo": "Oficina sobre Operacionalização do SCDP", "horario": "Das 14h às 18h", "instrutor": "Yuratan Alves Bernardes / DELOG/SEGES/MGI", "unidades": "SRAs, DCD", "formato": "On-line", "carga": "20", "data_raw": "23 a 27/03/2026", "aproximado": false}, {"tipo": "cronograma", "titulo": "Congresso de Pregoeiros 2026", "horario": "Das 8h às 18h", "instrutor": "Instituto Negócios Públicos do Brasil (INP)", "unidades": "SRAs, DCD", "formato": "Híbrido", "carga": "32", "data_raw": "23 a 26/03/2026", "aproximado": false}], "2026-03-27": [{"tipo": "cronograma", "titulo": "Oficina sobre Operacionalização do SCDP", "horario": "Das 14h às 18h", "instrutor": "Yuratan Alves Bernardes / DELOG/SEGES/MGI", "unidades": "SRAs, DCD", "formato": "On-line", "carga": "20", "data_raw": "23 a 27/03/2026", "aproximado": false}], "2026-07-14": [{"tipo": "viagem", "titulo": "Viagem institucional — SRA-SE", "sra": "SRA-SE", "representantes": "HELIO SOUZA DE OLIVEIRA, LUENIA COELHO DA SILVA VOGT, THIAGO RAMOS", "data_ida": "2026-07-14", "data_volta": "2026-07-16"}], "2026-07-15": [{"tipo": "viagem", "titulo": "Viagem institucional — SRA-SE", "sra": "SRA-SE", "representantes": "HELIO SOUZA DE OLIVEIRA, LUENIA COELHO DA SILVA VOGT, THIAGO RAMOS", "data_ida": "2026-07-14", "data_volta": "2026-07-16"}], "2026-07-16": [{"tipo": "viagem", "titulo": "Viagem institucional — SRA-SE", "sra": "SRA-SE", "representantes": "HELIO SOUZA DE OLIVEIRA, LUENIA COELHO DA SILVA VOGT, THIAGO RAMOS", "data_ida": "2026-07-14", "data_volta": "2026-07-16"}], "2026-07-28": [{"tipo": "cronograma", "titulo": "Oficina Prática sobre Planejamento de Contratações", "horario": "Das 09h às 17h", "instrutor": "Ricardo França de Brito / DCD/SSC/MGI", "unidades": "DCD (interno CGPLAN)", "formato": "Híbrido", "carga": "24", "data_raw": "28 a 30/07/2026", "aproximado": false}, {"tipo": "viagem", "titulo": "Viagem institucional — SRA-AC", "sra": "SRA-AC", "representantes": "HELIO SOUZA DE OLIVEIRA, ANDRE VIEIRA FERREIRA, LUENIA COELHO DA SILVA VOGT", "data_ida": "2026-07-28", "data_volta": "2026-07-30"}], "2026-07-29": [{"tipo": "cronograma", "titulo": "Oficina Prática sobre Planejamento de Contratações", "horario": "Das 09h às 17h", "instrutor": "Ricardo França de Brito / DCD/SSC/MGI", "unidades": "DCD (interno CGPLAN)", "formato": "Híbrido", "carga": "24", "data_raw": "28 a 30/07/2026", "aproximado": false}, {"tipo": "viagem", "titulo": "Viagem institucional — SRA-AC", "sra": "SRA-AC", "representantes": "HELIO SOUZA DE OLIVEIRA, ANDRE VIEIRA FERREIRA, LUENIA COELHO DA SILVA VOGT", "data_ida": "2026-07-28", "data_volta": "2026-07-30"}], "2026-07-30": [{"tipo": "cronograma", "titulo": "Oficina Prática sobre Planejamento de Contratações", "horario": "Das 09h às 17h", "instrutor": "Ricardo França de Brito / DCD/SSC/MGI", "unidades": "DCD (interno CGPLAN)", "formato": "Híbrido", "carga": "24", "data_raw": "28 a 30/07/2026", "aproximado": false}, {"tipo": "viagem", "titulo": "Viagem institucional — SRA-AC", "sra": "SRA-AC", "representantes": "HELIO SOUZA DE OLIVEIRA, ANDRE VIEIRA FERREIRA, LUENIA COELHO DA SILVA VOGT", "data_ida": "2026-07-28", "data_volta": "2026-07-30"}], "2026-08-01": [{"tipo": "cronograma", "titulo": "Oficina Prática sobre Fiscalização e Gestão Contratual", "horario": "", "instrutor": "Ricardo França de Brito / DCD/SSC/MGI", "unidades": "SRAs, DCD", "formato": "", "carga": "", "data_raw": "A definir", "aproximado": true}, {"tipo": "cronograma", "titulo": "Oficina Contrata Mais Brasil", "horario": "Das 14h às 18h", "instrutor": "a definir", "unidades": "SRAs, DCD", "formato": "On-line", "carga": "", "data_raw": "A definir", "aproximado": true}], "2026-08-03": [{"tipo": "viagem", "titulo": "Viagem institucional — SRA-GO/TO", "sra": "SRA-GO/TO", "representantes": "HELIO SOUZA DE OLIVEIRA, CLEIDIANE MARIA DOS SANTOS DAMÁSIO, ANDRE VIEIRA FERREIRA, LUENIA COELHO DA SILVA VOGT", "data_ida": "2026-08-03", "data_volta": "2026-08-05"}], "2026-08-04": [{"tipo": "viagem", "titulo": "Viagem institucional — SRA-GO/TO", "sra": "SRA-GO/TO", "representantes": "HELIO SOUZA DE OLIVEIRA, CLEIDIANE MARIA DOS SANTOS DAMÁSIO, ANDRE VIEIRA FERREIRA, LUENIA COELHO DA SILVA VOGT", "data_ida": "2026-08-03", "data_volta": "2026-08-05"}], "2026-08-05": [{"tipo": "cronograma", "titulo": "DCD IA Conecta", "horario": "Das 15h às 16h", "instrutor": "Pedro Henrique Loyola Lobo (DCD) / Leonardo David Da Silva Luiz (DFC)", "unidades": "DCD", "formato": "On-line", "carga": "1", "data_raw": "05/08/2026", "aproximado": false}, {"tipo": "viagem", "titulo": "Viagem institucional — SRA-GO/TO", "sra": "SRA-GO/TO", "representantes": "HELIO SOUZA DE OLIVEIRA, CLEIDIANE MARIA DOS SANTOS DAMÁSIO, ANDRE VIEIRA FERREIRA, LUENIA COELHO DA SILVA VOGT", "data_ida": "2026-08-03", "data_volta": "2026-08-05"}], "2026-08-17": [{"tipo": "viagem", "titulo": "Viagem institucional — SRA-PA", "sra": "SRA-PA", "representantes": "HELIO SOUZA DE OLIVEIRA, CLEIDIANE MARIA DOS SANTOS DAMÁSIO, THIAGO RAMOS, LUENIA COELHO DA SILVA VOGT", "data_ida": "2026-08-17", "data_volta": "2026-08-18"}], "2026-08-18": [{"tipo": "viagem", "titulo": "Viagem institucional — SRA-PA", "sra": "SRA-PA", "representantes": "HELIO SOUZA DE OLIVEIRA, CLEIDIANE MARIA DOS SANTOS DAMÁSIO, THIAGO RAMOS, LUENIA COELHO DA SILVA VOGT", "data_ida": "2026-08-17", "data_volta": "2026-08-18"}], "2026-08-24": [{"tipo": "cronograma", "titulo": "Curso Completo do Sistema Contratos.gov.br", "horario": "Das 14h às 18h", "instrutor": "Helles Júnior (Qtec Treinamento)", "unidades": "SRAs, DCD", "formato": "On-line", "carga": "20", "data_raw": "24 a 28/08/2026", "aproximado": false}], "2026-08-25": [{"tipo": "cronograma", "titulo": "Curso Completo do Sistema Contratos.gov.br", "horario": "Das 14h às 18h", "instrutor": "Helles Júnior (Qtec Treinamento)", "unidades": "SRAs, DCD", "formato": "On-line", "carga": "20", "data_raw": "24 a 28/08/2026", "aproximado": false}], "2026-08-26": [{"tipo": "cronograma", "titulo": "Curso Completo do Sistema Contratos.gov.br", "horario": "Das 14h às 18h", "instrutor": "Helles Júnior (Qtec Treinamento)", "unidades": "SRAs, DCD", "formato": "On-line", "carga": "20", "data_raw": "24 a 28/08/2026", "aproximado": false}], "2026-08-27": [{"tipo": "cronograma", "titulo": "Curso Completo do Sistema Contratos.gov.br", "horario": "Das 14h às 18h", "instrutor": "Helles Júnior (Qtec Treinamento)", "unidades": "SRAs, DCD", "formato": "On-line", "carga": "20", "data_raw": "24 a 28/08/2026", "aproximado": false}], "2026-08-28": [{"tipo": "cronograma", "titulo": "Curso Completo do Sistema Contratos.gov.br", "horario": "Das 14h às 18h", "instrutor": "Helles Júnior (Qtec Treinamento)", "unidades": "SRAs, DCD", "formato": "On-line", "carga": "20", "data_raw": "24 a 28/08/2026", "aproximado": false}], "2026-09-01": [{"tipo": "cronograma", "titulo": "Oficina Prática de Habilitação de Fornecedores em Licitação", "horario": "", "instrutor": "Ricardo França de Brito / DCD/SSC/MGI", "unidades": "SRAs, DCD", "formato": "", "carga": "", "data_raw": "A definir", "aproximado": true}], "2026-09-02": [{"tipo": "cronograma", "titulo": "DCD IA Conecta", "horario": "Das 15h às 16h", "instrutor": "a definir", "unidades": "SRAs, DCD", "formato": "On-line", "carga": "1", "data_raw": "02/09/2026", "aproximado": false}], "2026-09-03": [{"tipo": "cronograma", "titulo": "Módulo Gestão Contratual", "horario": "Das 14h às 18h", "instrutor": "Helles Júnior (Qtec Treinamento)", "unidades": "SRAs, DCD", "formato": "On-line", "carga": "8", "data_raw": "03 e 04/09/2026", "aproximado": false}], "2026-09-04": [{"tipo": "cronograma", "titulo": "Módulo Gestão Contratual", "horario": "Das 14h às 18h", "instrutor": "Helles Júnior (Qtec Treinamento)", "unidades": "SRAs, DCD", "formato": "On-line", "carga": "8", "data_raw": "03 e 04/09/2026", "aproximado": false}], "2026-09-07": [{"tipo": "feriado", "subtipo": "FERIADO", "titulo": "Independência do Brasil", "descricao": "Feriado Nacional"}], "2026-09-10": [{"tipo": "cronograma", "titulo": "Módulo Gestão Orçamentária e Financeira", "horario": "Das 14h às 18h", "instrutor": "Helles Júnior (Qtec Treinamento)", "unidades": "SRAs, DCD", "formato": "On-line", "carga": "8", "data_raw": "10 e 11/09/2026", "aproximado": false}], "2026-09-11": [{"tipo": "cronograma", "titulo": "Módulo Gestão Orçamentária e Financeira", "horario": "Das 14h às 18h", "instrutor": "Helles Júnior (Qtec Treinamento)", "unidades": "SRAs, DCD", "formato": "On-line", "carga": "8", "data_raw": "10 e 11/09/2026", "aproximado": false}], "2026-09-16": [{"tipo": "cronograma", "titulo": "Módulo Fiscalização", "horario": "Das 14h às 18h", "instrutor": "Helles Júnior (Qtec Treinamento)", "unidades": "SRAs, DCD", "formato": "On-line", "carga": "8", "data_raw": "16 e 17/09/2026", "aproximado": false}], "2026-09-17": [{"tipo": "cronograma", "titulo": "Módulo Fiscalização", "horario": "Das 14h às 18h", "instrutor": "Helles Júnior (Qtec Treinamento)", "unidades": "SRAs, DCD", "formato": "On-line", "carga": "8", "data_raw": "16 e 17/09/2026", "aproximado": false}], "2026-09-21": [{"tipo": "evento", "titulo": "Semana de Gestão da SSC", "horario": "Das 9h às 18h", "instrutor": "SSC/MGI", "unidades": "SRAs, DCD", "formato": "Presencial", "carga": "", "data_raw": "21 a 23/09/2026", "aproximado": false}], "2026-09-22": [{"tipo": "evento", "titulo": "Semana de Gestão da SSC", "horario": "Das 9h às 18h", "instrutor": "SSC/MGI", "unidades": "SRAs, DCD", "formato": "Presencial", "carga": "", "data_raw": "21 a 23/09/2026", "aproximado": false}], "2026-09-23": [{"tipo": "evento", "titulo": "Semana de Gestão da SSC", "horario": "Das 9h às 18h", "instrutor": "SSC/MGI", "unidades": "SRAs, DCD", "formato": "Presencial", "carga": "", "data_raw": "21 a 23/09/2026", "aproximado": false}], "2026-09-24": [{"tipo": "cronograma", "titulo": "Módulo Fiscalização", "horario": "Das 14h às 18h", "instrutor": "Helles Júnior (Qtec Treinamento)", "unidades": "SRAs, DCD", "formato": "On-line", "carga": "8", "data_raw": "24 e 25/09/2026", "aproximado": false}, {"tipo": "cronograma", "titulo": "Reunião com as SRAs", "horario": "Das 9h às 18h", "instrutor": "DCD/SSC", "unidades": "SRAs, DCD", "formato": "Presencial", "carga": "", "data_raw": "24/09/2026", "aproximado": false}], "2026-09-25": [{"tipo": "cronograma", "titulo": "Módulo Fiscalização", "horario": "Das 14h às 18h", "instrutor": "Helles Júnior (Qtec Treinamento)", "unidades": "SRAs, DCD", "formato": "On-line", "carga": "8", "data_raw": "24 e 25/09/2026", "aproximado": false}], "2026-10-01": [{"tipo": "cronograma", "titulo": "Gestão Tributária de Contratos", "horario": "Das 14h às 18h", "instrutor": "Alexandre Marques / Gustavo Reis (Open Soluções Tributárias)", "unidades": "SRAs, DCD", "formato": "On-line", "carga": "24", "data_raw": "01 e 02/10 e de 05 a 08/10/2026", "aproximado": false}, {"tipo": "cronograma", "titulo": "Oficina Prática de Análise de Proposta com Foco em Planilha de Custo", "horario": "", "instrutor": "Ricardo França de Brito / DCD/SSC/MGI", "unidades": "SRAs, DCD", "formato": "", "carga": "", "data_raw": "A definir", "aproximado": true}], "2026-10-02": [{"tipo": "cronograma", "titulo": "Gestão Tributária de Contratos", "horario": "Das 14h às 18h", "instrutor": "Alexandre Marques / Gustavo Reis (Open Soluções Tributárias)", "unidades": "SRAs, DCD", "formato": "On-line", "carga": "24", "data_raw": "01 e 02/10 e de 05 a 08/10/2026", "aproximado": false}], "2026-10-04": [{"tipo": "cronograma", "titulo": "DCD IA Conecta", "horario": "Das 15h às 16h", "instrutor": "a definir", "unidades": "SRAs, DCD", "formato": "On-line", "carga": "1", "data_raw": "04/10/2026", "aproximado": false}], "2026-10-05": [{"tipo": "cronograma", "titulo": "Gestão Tributária de Contratos", "horario": "Das 14h às 18h", "instrutor": "Alexandre Marques / Gustavo Reis (Open Soluções Tributárias)", "unidades": "SRAs, DCD", "formato": "On-line", "carga": "24", "data_raw": "01 e 02/10 e de 05 a 08/10/2026", "aproximado": false}], "2026-10-06": [{"tipo": "cronograma", "titulo": "Gestão Tributária de Contratos", "horario": "Das 14h às 18h", "instrutor": "Alexandre Marques / Gustavo Reis (Open Soluções Tributárias)", "unidades": "SRAs, DCD", "formato": "On-line", "carga": "24", "data_raw": "01 e 02/10 e de 05 a 08/10/2026", "aproximado": false}], "2026-10-07": [{"tipo": "cronograma", "titulo": "Gestão Tributária de Contratos", "horario": "Das 14h às 18h", "instrutor": "Alexandre Marques / Gustavo Reis (Open Soluções Tributárias)", "unidades": "SRAs, DCD", "formato": "On-line", "carga": "24", "data_raw": "01 e 02/10 e de 05 a 08/10/2026", "aproximado": false}], "2026-10-08": [{"tipo": "cronograma", "titulo": "Gestão Tributária de Contratos", "horario": "Das 14h às 18h", "instrutor": "Alexandre Marques / Gustavo Reis (Open Soluções Tributárias)", "unidades": "SRAs, DCD", "formato": "On-line", "carga": "24", "data_raw": "01 e 02/10 e de 05 a 08/10/2026", "aproximado": false}], "2026-10-12": [{"tipo": "feriado", "subtipo": "FERIADO", "titulo": "Nossa Senhora Aparecida", "descricao": "Feriado Nacional"}], "2026-10-14": [{"tipo": "cronograma", "titulo": "DCD IA Conecta", "horario": "Das 15h às 16h", "instrutor": "a definir", "unidades": "SRAs, DCD", "formato": "On-line", "carga": "1", "data_raw": "14/10/2026", "aproximado": false}], "2026-10-20": [{"tipo": "cronograma", "titulo": "Reforma Tributária para Órgãos Públicos", "horario": "Das 14h às 18h", "instrutor": "Alexandre Marques / Gustavo Reis (Open Soluções Tributárias)", "unidades": "SRAs, DCD", "formato": "On-line", "carga": "16", "data_raw": "20 a 23/10/2026", "aproximado": false}], "2026-10-21": [{"tipo": "cronograma", "titulo": "Reforma Tributária para Órgãos Públicos", "horario": "Das 14h às 18h", "instrutor": "Alexandre Marques / Gustavo Reis (Open Soluções Tributárias)", "unidades": "SRAs, DCD", "formato": "On-line", "carga": "16", "data_raw": "20 a 23/10/2026", "aproximado": false}], "2026-10-22": [{"tipo": "cronograma", "titulo": "Reforma Tributária para Órgãos Públicos", "horario": "Das 14h às 18h", "instrutor": "Alexandre Marques / Gustavo Reis (Open Soluções Tributárias)", "unidades": "SRAs, DCD", "formato": "On-line", "carga": "16", "data_raw": "20 a 23/10/2026", "aproximado": false}], "2026-10-23": [{"tipo": "cronograma", "titulo": "Reforma Tributária para Órgãos Públicos", "horario": "Das 14h às 18h", "instrutor": "Alexandre Marques / Gustavo Reis (Open Soluções Tributárias)", "unidades": "SRAs, DCD", "formato": "On-line", "carga": "16", "data_raw": "20 a 23/10/2026", "aproximado": false}], "2026-10-28": [{"tipo": "feriado", "subtipo": "PONTO FACULTATIVO", "titulo": "Ponto Facultativo (véspera de Servidor Público)", "descricao": "Ponto Facultativo"}], "2026-11-02": [{"tipo": "feriado", "subtipo": "FERIADO", "titulo": "Finados", "descricao": "Feriado Nacional"}], "2026-11-09": [{"tipo": "cronograma", "titulo": "Curso de Gestão Documental", "horario": "Das 14h às 18h", "instrutor": "Profª Rosângela Cunha / Capitã-de-Mar-e-Guerra RM1 (ESAFI)", "unidades": "SRAs, DCD", "formato": "On-line", "carga": "20", "data_raw": "09 a 13/11/2026", "aproximado": false}], "2026-11-10": [{"tipo": "cronograma", "titulo": "Curso de Gestão Documental", "horario": "Das 14h às 18h", "instrutor": "Profª Rosângela Cunha / Capitã-de-Mar-e-Guerra RM1 (ESAFI)", "unidades": "SRAs, DCD", "formato": "On-line", "carga": "20", "data_raw": "09 a 13/11/2026", "aproximado": false}], "2026-11-11": [{"tipo": "cronograma", "titulo": "Curso de Gestão Documental", "horario": "Das 14h às 18h", "instrutor": "Profª Rosângela Cunha / Capitã-de-Mar-e-Guerra RM1 (ESAFI)", "unidades": "SRAs, DCD", "formato": "On-line", "carga": "20", "data_raw": "09 a 13/11/2026", "aproximado": false}], "2026-11-12": [{"tipo": "cronograma", "titulo": "Curso de Gestão Documental", "horario": "Das 14h às 18h", "instrutor": "Profª Rosângela Cunha / Capitã-de-Mar-e-Guerra RM1 (ESAFI)", "unidades": "SRAs, DCD", "formato": "On-line", "carga": "20", "data_raw": "09 a 13/11/2026", "aproximado": false}], "2026-11-13": [{"tipo": "cronograma", "titulo": "Curso de Gestão Documental", "horario": "Das 14h às 18h", "instrutor": "Profª Rosângela Cunha / Capitã-de-Mar-e-Guerra RM1 (ESAFI)", "unidades": "SRAs, DCD", "formato": "On-line", "carga": "20", "data_raw": "09 a 13/11/2026", "aproximado": false}], "2026-11-15": [{"tipo": "feriado", "subtipo": "FERIADO", "titulo": "Proclamação da República", "descricao": "Feriado Nacional"}], "2026-11-20": [{"tipo": "feriado", "subtipo": "FERIADO", "titulo": "Consciência Negra", "descricao": "Feriado Nacional"}], "2026-12-01": [{"tipo": "cronograma", "titulo": "SIADS", "horario": "Das 14h às 18h", "instrutor": "a definir", "unidades": "SRAs, DCD", "formato": "On-line", "carga": "", "data_raw": "A definir", "aproximado": true}, {"tipo": "cronograma", "titulo": "Curso Sustentabilidade em Contratação na Prática", "horario": "Das 14h às 18h", "instrutor": "a definir", "unidades": "SRAs, DCD", "formato": "On-line", "carga": "", "data_raw": "A definir", "aproximado": true}], "2026-12-24": [{"tipo": "feriado", "subtipo": "PONTO FACULTATIVO", "titulo": "Ponto Facultativo (véspera de Natal)", "descricao": "Ponto Facultativo"}], "2026-12-25": [{"tipo": "feriado", "subtipo": "FERIADO", "titulo": "Natal", "descricao": "Feriado Nacional"}], "2026-12-31": [{"tipo": "feriado", "subtipo": "PONTO FACULTATIVO", "titulo": "Ponto Facultativo (véspera de Ano Novo)", "descricao": "Ponto Facultativo"}], "2026-02-16": [{"tipo": "feriado", "subtipo": "PONTO FACULTATIVO", "titulo": "Ponto Facultativo — Carnaval (Segunda-feira)", "descricao": "Ponto Facultativo"}], "2026-02-17": [{"tipo": "feriado", "subtipo": "PONTO FACULTATIVO", "titulo": "Carnaval", "descricao": "Feriado Municipal / Ponto Facultativo"}], "2026-02-18": [{"tipo": "feriado", "subtipo": "PONTO FACULTATIVO", "titulo": "Ponto Facultativo — Quarta-feira de Cinzas (até 14h)", "descricao": "Ponto Facultativo"}]};
+
+// ============================================================
+//  HELPERS
+// ============================================================
+const MONTHS = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho',
+                'Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+
+let yr = 2026, mo = 1; // Fevereiro
+
+function key(y,m,d){ return `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`; }
+
+function fmtBr(s){
+  if(!s) return '';
+  const [y,m,d]=s.split('-');
+  return `${parseInt(d)} de ${MONTHS[parseInt(m)-1].toLowerCase()} de ${y}`;
+}
+function fmtDateShort(s){
+  // Returns "14/07" or "14/07/2026"
+  if(!s) return '—';
+  const [y,m,d]=s.split('-');
+  return `${String(d).padStart(2,'0')}/${String(m).padStart(2,'0')}/${y}`;
+}
+
+function isADef(e){ return e.tipo==='cronograma' && e.aproximado===true; }
+function isPast(dk){
+  // Returns true if the date key is strictly before today
+  const today = new Date(); today.setHours(0,0,0,0);
+  const d = new Date(dk + 'T00:00:00');
+  return d < today;
+}
+
+// Deduplica cursos por título para a sidebar
+function dedupByTitle(list){
+  const seen=new Set(), out=[];
+  list.forEach(e=>{ if(!seen.has(e.titulo)){seen.add(e.titulo);out.push(e);} });
+  return out;
+}
+
+// Coleta eventos especiais do mês (tipo "evento", sem duplicata por título)
+function getMonthEvents(){
+  const daysInMo = new Date(yr, mo+1, 0).getDate();
+  const events=[], seen=new Set();
+  for(let d=1;d<=daysInMo;d++){
+    const evts = CALENDAR_DATA[key(yr,mo,d)] || [];
+    evts.filter(e=>e.tipo==='evento').forEach(e=>{
+      if(!seen.has(e.titulo)){ seen.add(e.titulo); events.push({...e}); }
+    });
+  }
+  return events;
+}
+
+// Coleta viagens do mês (uma entrada por SRA, sem duplicata)
+function getMonthTrips(){
+  const daysInMo = new Date(yr, mo+1, 0).getDate();
+  const trips=[], seen=new Set();
+  for(let d=1;d<=daysInMo;d++){
+    const evts = CALENDAR_DATA[key(yr,mo,d)] || [];
+    evts.filter(e=>e.tipo==='viagem').forEach(e=>{
+      if(!seen.has(e.sra)){
+        seen.add(e.sra);
+        trips.push({...e});
+      }
+    });
+  }
+  return trips;
+}
+
+// Coleta todos os cursos do mês (confirmados e a definir) sem duplicatas
+function getMonthCourses(){
+  const daysInMo = new Date(yr, mo+1, 0).getDate();
+  const confirmed=[], pending=[];
+  const seenConf=new Set(), seenPend=new Set();
+  for(let d=1;d<=daysInMo;d++){
+    const evts = CALENDAR_DATA[key(yr,mo,d)] || [];
+    evts.filter(e=>e.tipo==='cronograma').forEach(e=>{
+      if(isADef(e)){
+        if(!seenPend.has(e.titulo)){ seenPend.add(e.titulo); pending.push({...e}); }
+      } else {
+        if(!seenConf.has(e.titulo)){ seenConf.add(e.titulo); confirmed.push({...e}); }
+      }
+    });
+  }
+  return {confirmed, pending};
+}
+
+// Obtém a primeira data de ocorrência de um título no mês
+function firstDateOfTitle(titulo){
+  const daysInMo = new Date(yr, mo+1, 0).getDate();
+  for(let d=1;d<=daysInMo;d++){
+    const k=key(yr,mo,d);
+    const evts=CALENDAR_DATA[k]||[];
+    if(evts.some(e=>e.titulo===titulo)) return k;
+  }
+  return null;
+}
+
+// ============================================================
+//  PILL HELPERS
+// ============================================================
+function pillClass(e){
+  if(isADef(e)) return 'pill-adef';
+  if(e.tipo==='feriado') return e.subtipo==='PONTO FACULTATIVO' ? 'pill-pf' : 'pill-feriado';
+  if(e.tipo==='evento') return 'pill-evento';
+  return `pill-${e.tipo}`;
+}
+const ICON = {cronograma:'📚', adef:'📌', feriado:'🏛️', pf:'⭐', viagem:'✈️', ferias:'🌴', evento:'🎯'};
+function pillIcon(e){
+  if(isADef(e)) return ICON.adef;
+  if(e.tipo==='feriado') return e.subtipo==='PONTO FACULTATIVO' ? ICON.pf : ICON.feriado;
+  return ICON[e.tipo]||'';
+}
+function pillLabel(e){
+  if(isADef(e)) return e.titulo;
+  if(e.tipo==='cronograma') return e.titulo;
+  if(e.tipo==='feriado') return e.titulo;
+  if(e.tipo==='evento') return `🎯 ${e.titulo}`;
+  if(e.tipo==='viagem') return `✈️ Viagem Institucional DCD/SSC${e.sra ? ' — '+e.sra : ''}`;
+  if(e.tipo==='ferias') return `${e.label||''} – ${e.servidor||''}`;
+  return e.titulo;
+}
+
+// ============================================================
+//  RENDER CALENDÁRIO
+// ============================================================
+function renderCalendar(){
+  document.getElementById('month-label').textContent = `${MONTHS[mo]} de ${yr}`;
+  document.getElementById('side-month').textContent  = `${MONTHS[mo]} ${yr}`;
+
+  const container = document.getElementById('cal-days');
+  container.innerHTML = '';
+
+  const today = new Date();
+  const todayKey = key(today.getFullYear(), today.getMonth(), today.getDate());
+
+  const firstDay   = new Date(yr, mo, 1).getDay();
+  const daysInMo   = new Date(yr, mo+1, 0).getDate();
+  const daysInPrev = new Date(yr, mo, 0).getDate();
+  const total      = Math.ceil((firstDay+daysInMo)/7)*7;
+
+  for(let i=0;i<total;i++){
+    const cell = document.createElement('div');
+    cell.className='cal-day';
+    let d, m2, y2;
+    if(i<firstDay){
+      d=daysInPrev-firstDay+1+i; m2=mo-1; y2=yr;
+      if(m2<0){m2=11;y2--;}
+      cell.classList.add('other-month');
+    } else if(i>=firstDay+daysInMo){
+      d=i-firstDay-daysInMo+1; m2=mo+1; y2=yr;
+      if(m2>11){m2=0;y2++;}
+      cell.classList.add('other-month');
+    } else {
+      d=i-firstDay+1; m2=mo; y2=yr;
+    }
+
+    const dk = key(y2,m2,d);
+    const evts = CALENDAR_DATA[dk]||[];
+
+    // No grid: sem férias, sem cursos a definir
+    const visEvts = evts.filter(e => e.tipo !== 'ferias' && !isADef(e));
+
+    if(dk===todayKey) cell.classList.add('today');
+    if(evts.some(e=>e.tipo==='feriado'&&e.subtipo==='FERIADO')) cell.classList.add('has-feriado');
+    if(visEvts.length>0) cell.classList.add('has-events');
+
+    const numEl=document.createElement('div');
+    numEl.className='cal-day-num';
+    numEl.textContent=d;
+    cell.appendChild(numEl);
+
+    if(visEvts.length>0){
+      const ec=document.createElement('div');
+      ec.className='cal-events';
+      const ORDER={feriado:0,evento:1,viagem:2,cronograma:3};
+      const sorted=[...visEvts].sort((a,b)=>(ORDER[a.tipo]||9)-(ORDER[b.tipo]||9));
+      const MAX=3;
+      sorted.slice(0,MAX).forEach(e=>{
+        const p=document.createElement('div');
+        p.className=`cal-event-pill ${pillClass(e)}`;
+        p.textContent=`${pillIcon(e)} ${pillLabel(e)}`;
+        ec.appendChild(p);
+      });
+      if(sorted.length>MAX){
+        const m=document.createElement('div');
+        m.className='cal-more';
+        m.textContent=`+${sorted.length-MAX} mais`;
+        ec.appendChild(m);
+      }
+      cell.appendChild(ec);
+      // Modal abre sem férias, mas inclui cursos a definir para quem clicar
+      cell.addEventListener('click',()=>openModal(dk, evts.filter(e=>e.tipo!=='ferias')));
+    }
+
+    container.appendChild(cell);
+  }
+
+  renderSidebar();
+}
+
+// ============================================================
+//  RENDER SIDEBAR
+// ============================================================
+function fmtPeriod(e){
+  if(e.data_raw && e.data_raw!=='A definir') return e.data_raw;
+  const fd = firstDateOfTitle(e.titulo);
+  if(fd){ const [y,m,d]=fd.split('-'); return `${parseInt(d)} de ${MONTHS[parseInt(m)-1].toLowerCase()}`; }
+  return 'Data a confirmar';
+}
+
+function isPastMonth(){
+  // Returns true if the currently viewed month is entirely in the past
+  const today = new Date(); today.setHours(0,0,0,0);
+  const lastDayOfMonth = new Date(yr, mo+1, 0);
+  return lastDayOfMonth < today;
+}
+
+function renderSidebar(){
+  const {confirmed, pending} = getMonthCourses();
+  const body = document.getElementById('sidebar-body');
+  const pastMonth = isPastMonth();
+
+  let html = '';
+
+  // ── Confirmadas ──
+  html += `<div class="side-section">
+    <div class="side-section-label confirmed">
+      <span class="side-label-dot"></span>
+      Capacitações agendadas
+    </div>`;
+
+  if(confirmed.length===0 && !pastMonth){
+    html += `<div class="side-empty">Nenhuma capacitação confirmada neste mês.</div>`;
+  } else if(confirmed.length===0 && pastMonth){
+    // mês passado sem cursos: não exibe nada
+    html = ''; // reset — seção inteira vira vazia, fecha e ignora
+  } else {
+    confirmed.forEach(e=>{
+      const chips = [];
+      if(e.formato && !['a definir','nan'].includes(e.formato.toLowerCase()))
+        chips.push(`<span class="side-chip chip-format">📡 ${e.formato}</span>`);
+      if(e.carga && !['a definir','nan'].includes(String(e.carga).toLowerCase()))
+        chips.push(`<span class="side-chip chip-hours">⏱️ ${e.carga}h</span>`);
+      html += `<div class="side-event confirmed-card" onclick="openSideModal('${e.titulo.replace(/'/g,"\\'")}')">
+        <div class="side-event-date">📅 ${fmtPeriod(e)}</div>
+        <div class="side-event-title">${e.titulo}</div>
+        ${chips.length ? `<div class="side-event-chips">${chips.join('')}</div>` : ''}
+      </div>`;
+    });
+  }
+  html += `</div>`;
+
+  // ── Previstas / A definir — só exibe se não for mês passado e houver pendentes ──
+  if(!pastMonth && pending.length > 0){
+    html += `<div class="side-section">
+      <div class="side-section-label pending">
+        <span class="side-label-dot"></span>
+        Capacitações previstas
+      </div>`;
+    pending.forEach(e=>{
+      html += `<div class="side-event pending-card" onclick="openSideModal('${e.titulo.replace(/'/g,"\'")}')">
+        <div class="side-event-date">📌 Data a confirmar</div>
+        <div class="side-event-title">${e.titulo}</div>
+        <div class="side-event-chips">
+          <span class="side-chip chip-adef">⏳ aguardando confirmação</span>
+          ${e.unidades&&e.unidades!=='nan'?`<span class="side-chip">🏢 ${e.unidades}</span>`:''}
+        </div>
+      </div>`;
+    });
+    html += `</div>`;
+  }
+
+  // ── Eventos Estratégicos (Semana de Gestão etc.) ──
+  const specialEvents = getMonthEvents();
+  if(specialEvents.length > 0){
+    html += `<div class="side-section">
+      <div class="side-section-label" style="color:var(--evt-accent);border-bottom:1px solid var(--side-border);">
+        <span class="side-label-dot" style="background:var(--evt-accent);box-shadow:0 0 5px rgba(190,24,93,.3);"></span>
+        Eventos Estratégicos
+      </div>`;
+    specialEvents.forEach(ev=>{
+      const period = ev.data_raw && ev.data_raw!=='A definir' ? ev.data_raw : 'Data a confirmar';
+      html += `<div class="side-event" style="background:var(--evt-bg);border:1px solid var(--evt-border);border-left:3px solid var(--evt-accent);margin-bottom:7px;border-radius:var(--r-md);padding:10px 12px;cursor:pointer;" onclick="openSideModal('${ev.titulo.replace(/'/g,"\'") }')">
+        <div class="side-event-date" style="color:var(--evt-accent);font-size:.6rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;margin-bottom:3px;">🎯 Evento Estratégico</div>
+        <div class="side-event-title" style="font-size:.82rem;font-weight:700;color:var(--text);margin-bottom:5px;">${ev.titulo}</div>
+        <div class="side-event-chips" style="display:flex;flex-wrap:wrap;gap:4px;">
+          <span class="side-chip" style="background:var(--evt-pill);color:var(--evt-text);">📅 ${period}</span>
+          ${ev.formato&&ev.formato!==''?`<span class="side-chip" style="background:var(--evt-pill);color:var(--evt-text);">📡 ${ev.formato}</span>`:''}
+        </div>
+      </div>`;
+    });
+    html += `</div>`;
+  }
+
+  // ── Viagens Institucionais ──
+  const trips = getMonthTrips();
+  if(trips.length > 0){
+    html += `<div class="side-section">
+      <div class="side-section-label" style="color:var(--via-accent);border-bottom:1px solid var(--side-border);">
+        <span class="side-label-dot" style="background:var(--via-accent);box-shadow:0 0 5px rgba(79,70,229,.35);"></span>
+        Viagens Institucionais
+      </div>`;
+    trips.forEach(t=>{
+      const ida   = t.data_ida   ? fmtDateShort(t.data_ida)   : '—';
+      const volta = t.data_volta ? fmtDateShort(t.data_volta) : '—';
+      html += `<div class="side-event" style="background:var(--via-bg);border:1px solid var(--via-border);border-left:3px solid var(--via-accent);margin-bottom:7px;border-radius:var(--r-md);padding:10px 12px;">
+        <div class="side-event-date" style="color:var(--via-accent);font-size:.6rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;margin-bottom:3px;">✈️ Viagem Institucional DCD/SSC</div>
+        <div class="side-event-title" style="font-size:.82rem;font-weight:700;color:var(--text);margin-bottom:5px;">SRA — ${t.sra||'—'}</div>
+        <div class="side-event-chips" style="display:flex;flex-wrap:wrap;gap:4px;">
+          <span class="side-chip" style="background:var(--via-pill);color:var(--via-text);">📅 Ida: ${ida}</span>
+          <span class="side-chip" style="background:var(--via-pill);color:var(--via-text);">🏠 Volta: ${volta}</span>
+        </div>
+      </div>`;
+    });
+    html += `</div>`;
+  }
+
+  body.innerHTML = html;
+}
+
+// ============================================================
+//  MODAL
+// ============================================================
+const BADGE_ICONS = {
+  cronograma:'📚 Treinamento', adef:'📌 Data a confirmar',
+  feriado:'🏛️ Feriado Nacional', pf:'⭐ Ponto Facultativo',
+  viagem:'✈️ Viagem Institucional', ferias:'🌴 Férias'
+};
+
+function mrow(lbl,val){
+  if(!val||['nan','a definir','A definir',''].includes(String(val).trim())) return '';
+  return `<div class="m-row"><span class="m-lbl">${lbl}</span><span class="m-val">${val}</span></div>`;
+}
+
+function buildEventCard(e){
+  let tClass, bClass, bLabel, meta='', extra='';
+  const adef = isADef(e);
+
+  if(adef){
+    tClass='t-adef'; bClass='mb-adef'; bLabel=BADGE_ICONS.adef;
+    meta += mrow('🏢 Unidades', e.unidades);
+    meta += mrow('🕐 Horário', e.horario);
+    extra=`<div class="m-alert a-vio">📌 Data ainda não confirmada. Acompanhe as comunicações da DCD.</div>`;
+  } else if(e.tipo==='cronograma'){
+    tClass='t-cron'; bClass='mb-cron'; bLabel=BADGE_ICONS.cronograma;
+    meta += mrow('🕐 Horário', e.horario);
+    meta += mrow('👤 Instrutor', e.instrutor);
+    meta += mrow('🏢 Unidades', e.unidades);
+    meta += mrow('📡 Formato', e.formato);
+    if(e.carga&&!['a definir','nan'].includes(String(e.carga).toLowerCase()))
+      meta += mrow('⏱️ Carga', `${e.carga} h`);
+    if(e.data_raw&&e.data_raw!=='A definir') meta += mrow('📅 Período', e.data_raw);
+    // Se o curso já aconteceu, exibe mensagem de realizado; senão, inscrições em breve
+    if(isPast(currentModalDate)){
+      extra=`<div class="m-alert a-green">🎓 Curso realizado — certificados enviados aos participantes.</div>`;
+    } else {
+      extra=`<div class="m-alert a-blue">✅ Data confirmada — inscrições serão disponibilizadas em breve.</div>`;
+    }
+  } else if(e.tipo==='evento'){
+    tClass='t-evt'; bClass='mb-evt'; bLabel='🎯 Evento Estratégico';
+    meta += mrow('🕐 Horário',  e.horario);
+    meta += mrow('👥 Público',  e.unidades);
+    meta += mrow('📡 Formato',  e.formato);
+    meta += mrow('📅 Período',  e.data_raw && e.data_raw!=='A definir' ? e.data_raw : '');
+    extra=`<div class="m-alert a-blue">📌 Evento estratégico da SSC — presença institucional da DCD.</div>`;
+  } else if(e.tipo==='feriado'){
+    const isPF = e.subtipo==='PONTO FACULTATIVO';
+    tClass=isPF?'t-pf':'t-fer'; bClass=isPF?'mb-pf':'mb-fer';
+    bLabel=isPF?BADGE_ICONS.pf:BADGE_ICONS.feriado;
+    meta += mrow('📋 Tipo', e.descricao);
+  } else if(e.tipo==='viagem'){
+    tClass='t-via'; bClass='mb-via'; bLabel=BADGE_ICONS.viagem;
+    meta += mrow('📍 Destino', e.sra);
+    meta += mrow('👥 Representantes', e.representantes);
+    meta += mrow('✈️ Ida', fmtBr(e.data_ida));
+    meta += mrow('🏠 Volta', fmtBr(e.data_volta));
+  }
+
+  return `<div class="modal-event ${tClass}">
+    <div class="m-badge ${bClass}">${bLabel}</div>
+    <div class="m-title">${e.titulo}</div>
+    ${meta?`<div class="m-meta">${meta}</div>`:''}
+    ${extra}
+  </div>`;
+}
+
+let currentModalDate = '';
+function openModal(dk, evts){
+  currentModalDate = dk;
+  const ORDER={feriado:0,evento:1,viagem:2,cronograma:3};
+  const sorted=[...evts].sort((a,b)=>{
+    const ao=isADef(a)?5:(ORDER[a.tipo]||9);
+    const bo=isADef(b)?5:(ORDER[b.tipo]||9);
+    return ao-bo;
+  });
+  document.getElementById('modal-date').textContent =
+    fmtBr(dk).replace(/^\S/,c=>c.toUpperCase());
+  document.getElementById('modal-body').innerHTML = sorted.map(buildEventCard).join('');
+  document.getElementById('modal-overlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+
+// Abre modal a partir de clique na sidebar (busca os eventos do primeiro dia do título)
+function openSideModal(titulo){
+  const daysInMo = new Date(yr, mo+1, 0).getDate();
+  for(let d=1;d<=daysInMo;d++){
+    const dk=key(yr,mo,d);
+    const evts=CALENDAR_DATA[dk]||[];
+    if(evts.some(e=>e.titulo===titulo)){
+      openModal(dk, evts);
+      return;
+    }
+  }
+}
+
+function closeModal(){
+  document.getElementById('modal-overlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+
+// ============================================================
+//  EVENTOS
+// ============================================================
+// Meses ativos (0-indexed): fev=1, mar=2, jul=6, ago=7, set=8, out=9, nov=10, dez=11
+const ACTIVE_MONTHS = [
+  {yr:2026,mo:1},{yr:2026,mo:2},
+  {yr:2026,mo:6},{yr:2026,mo:7},{yr:2026,mo:8},
+  {yr:2026,mo:9},{yr:2026,mo:10},{yr:2026,mo:11}
+];
+function findActiveMonth(direction){
+  let newYr=yr, newMo=mo;
+  for(let i=0;i<12;i++){
+    newMo += direction;
+    if(newMo>11){newMo=0;newYr++;}
+    if(newMo<0){newMo=11;newYr--;}
+    if(ACTIVE_MONTHS.some(m=>m.yr===newYr&&m.mo===newMo)){
+      yr=newYr; mo=newMo; renderCalendar(); return;
+    }
+  }
+}
+document.getElementById('btn-prev').addEventListener('click',()=>findActiveMonth(-1));
+document.getElementById('btn-next').addEventListener('click',()=>findActiveMonth(1));
+document.getElementById('modal-close').addEventListener('click', closeModal);
+document.getElementById('modal-overlay').addEventListener('click',e=>{ if(e.target===e.currentTarget) closeModal(); });
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape') closeModal();
+  if(e.key==='ArrowLeft')  document.getElementById('btn-prev').click();
+  if(e.key==='ArrowRight') document.getElementById('btn-next').click();
+});
+
+renderCalendar();
+</script>
+</body>
+</html>
